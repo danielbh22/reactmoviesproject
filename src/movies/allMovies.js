@@ -25,7 +25,7 @@ function AllMoviesComp(props)
                 return(
                 <div>
                     
-                <MovieComp key={item.id} movieData={item} />
+                <MovieComp key={item.id} movieData={item} /><br/>
                 </div>)
             })
         }
