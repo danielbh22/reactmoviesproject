@@ -9,6 +9,7 @@ function AllMembersComp(props)
 
     const [members, setMembers] = useState([]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(async () =>
     {
       let resp = await utils.getMembers();

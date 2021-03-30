@@ -49,6 +49,7 @@ function MoviesWatchedComp(props)
       setMovies(resp2.data);
 
 
+
     }, [])
 
 
@@ -67,7 +68,7 @@ function MoviesWatchedComp(props)
      <div className="App">
         <h3>Movies Watched</h3> 
         <Button size="small" onClick={() => {
-            if (isVisible == true)
+            if (isVisible === true)
             {
              setIsVisible(false) 
             }
@@ -110,6 +111,17 @@ function MoviesWatchedComp(props)
           
         </Select>
       </FormControl>
+      <TextField 
+        label="ID" 
+        id="memberid" 
+        type="text" 
+        value={sub.memberid = props.mData._id }  
+        onChange={e => setSub({...sub , memberid : e.target.value}) } 
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+          }}
+        /><br/>
         <TextField
             id="date"
             label="Watched"
@@ -122,14 +134,7 @@ function MoviesWatchedComp(props)
             shrink: true,
             }}
         /><br/>
-        <TextField 
-        label="ID" 
-        id="memberid" 
-        type="text" 
-        value={props.mData._id} 
-        onChange={e => setSub({...sub , memberid : e.target.value}) } 
-        className={classes.textField}
-        /><br/>
+       
         <input type="submit" value="Subscribe" />
         </form>
         <br/>
@@ -143,12 +148,26 @@ function MoviesWatchedComp(props)
 
         <ul>
         {
+        
         subs.map(item =>
                 {
-                    if(item.memberid == props.mData._id)
+                  
+                    if(item.memberid === props.mData._id)
                     {
                         return (
-                         <li>movie id: {item.movieid} , date : {item.date}</li>
+                          
+                         <li key={item._id}>  Movie: {movies.map(x =>
+                          { 
+                              if(x._id === item.movieid)
+                            {
+                              return ( x.name)
+                            }
+                            else{
+                              return null
+                            }
+                            
+                            
+                          })} , Date : {item.date.split("T00:00:00.000Z")}</li>
                      )
                     }
                     else{
