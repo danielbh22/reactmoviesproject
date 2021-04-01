@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import MoviesWatchedComp from './moviesWatched';
+import membersUtils from '../membersUtils';
+import { useState } from 'react' 
 
 const useStyles = makeStyles({
     root: {
@@ -20,9 +22,19 @@ const useStyles = makeStyles({
     },
   });
 
+
+
 function MemberComp(props)
 {
 
+  const [id] = useState(props.memberData._id);
+
+  const deleteM = async () =>
+  {
+    let resp = await membersUtils.deleteMember(id);
+    alert(resp.data);
+
+  }
     const classes = useStyles();
 
 
@@ -41,7 +53,7 @@ function MemberComp(props)
       </CardContent>
       <CardActions>
         <Button size="small">Edit</Button>
-        <Button size="small">Delete</Button>
+        <Button onClick={deleteM} size="small">Delete</Button>
       </CardActions>
       <MoviesWatchedComp mData={props.memberData} />
     </Card>

@@ -36,6 +36,7 @@ function SubscriptionsComp(props)
           <Route path="/allMembers" component={AllMembersComp} />
         </Switch>
         </Router>
+        
    
         
     </div>

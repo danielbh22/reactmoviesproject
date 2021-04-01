@@ -4,7 +4,7 @@ import MemberComp from './member'
 
 import React from 'react';
 
-function AllMembersComp(props)
+function AllMembersComp()
 {
 
     const [members, setMembers] = useState([]);
