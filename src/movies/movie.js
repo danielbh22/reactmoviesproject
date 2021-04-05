@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, {useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -10,6 +10,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {Link} from 'react-router-dom'
+
+import utils from '../moviesUtils';
+import SubsWatchedComp from './subsWatched'
+
+
+
 
 const useStyles = makeStyles({
     root: {
@@ -23,7 +30,25 @@ const useStyles = makeStyles({
 function MovieComp(props)
 {
 
+    const [id] = useState(props.movieData._id)
+    const [link,setLink] = useState("")
     const classes = useStyles();
+
+
+    
+    useEffect(() =>
+    {
+      setLink("/editMovie/" + id)
+
+    },[id])
+
+    const deleteData = async () =>
+    {
+      let resp = await utils.deleteMovie(id);
+       alert(resp.data);
+
+
+    }
 
     return(
          <div className="App">
@@ -43,11 +68,10 @@ function MovieComp(props)
           </Typography>
         </CardContent>
       </CardActionArea>
+      <SubsWatchedComp movieData={id} />
       <CardActions>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-        <Button size="small" color="primary">
+      <Link to= {link} >Edit</Link>
+        <Button size="small" color="primary" onClick={deleteData} >
           Delete
         </Button>
       </CardActions>

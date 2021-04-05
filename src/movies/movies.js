@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import AddMoviesComp from './addMovies'
 import AllMoviesComp from './allMovies'
+import EditMoviesComp from './editMovie'
 
 
 
@@ -36,6 +37,9 @@ function MoviesComp(props)
         <Switch>
           <Route path="/addMovies" component={AddMoviesComp} />
           <Route path="/allMovies" component={AllMoviesComp} />
+          <Route path="/movies" component={AllMoviesComp} />
+          <Route path="/editMovie/:id" component={EditMoviesComp} />
+          <Route path="/allMovies/:name" component={AllMoviesComp} />
         </Switch>
         </Router>
    

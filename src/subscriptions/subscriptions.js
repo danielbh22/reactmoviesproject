@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 
 import AddMemberComp from './addMember';
 import AllMembersComp from './allMembers';
+import EditMemberComp from './editMember';
+import AllMoviesComp from '../movies/allMovies';
 
 
 
@@ -34,6 +36,10 @@ function SubscriptionsComp(props)
         <Switch>
           <Route path="/addMember" component={AddMemberComp} />
           <Route path="/allMembers" component={AllMembersComp} />
+          <Route path="/subscriptions" component={AllMembersComp} />
+          <Route path="/editMember/:id" component={EditMemberComp} />
+          <Route path="/allMovies/:name" component={AllMoviesComp} />
+
         </Switch>
         </Router>
         

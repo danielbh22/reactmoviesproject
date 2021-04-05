@@ -2,10 +2,15 @@ import {useState} from 'react'
 import utils from '../moviesUtils';
 
 import React from 'react';
+import {Link} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
 
 function AddMoviesComp(props)
 {
     const [movie,setMovie] = useState({});
+    const history = useHistory()
+
 
     const save = async (e) =>
     {
@@ -13,11 +18,10 @@ function AddMoviesComp(props)
     
       let  resp  = await utils.addMovie(movie);
       alert(resp.data);
-     // this.props.history.push("/allMembers");
+      history.push("/allMovies");
     
     }
 
-    //const [id,setId] = useState(0);
 
     return <div>
         <h3>Add Movie</h3>
@@ -28,7 +32,7 @@ function AddMoviesComp(props)
             Image Url: <input type="text" value={movie.img} onChange={e => setMovie({...movie, img : e.target.value } ) }/> <br/>
             Premired: <input type="date" value={movie.premired} onChange={e => setMovie({...movie, premired : e.target.value } ) }/> <br/>
             <input type="submit" value="Save" />
-            <input type="button" value="Cancel" />
+            <Link to= "/allMovies" >Cancel</Link>
         </form>
 
 

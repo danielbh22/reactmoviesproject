@@ -26,7 +26,7 @@ function AllMembersComp()
                 return(
                 <div>
                     
-                <MemberComp key={item.id} memberData={item} /><br/>
+                <MemberComp key={item._id} memberData={item} /><br/>
                 </div>)
             })
         }

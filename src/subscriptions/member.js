@@ -1,6 +1,8 @@
 
 
-import React from 'react';
+import React, {useEffect, useState } from 'react';
+import {Link} from 'react-router-dom'
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 
 import MoviesWatchedComp from './moviesWatched';
 import membersUtils from '../membersUtils';
-import { useState } from 'react' 
 
 const useStyles = makeStyles({
     root: {
@@ -28,6 +29,14 @@ function MemberComp(props)
 {
 
   const [id] = useState(props.memberData._id);
+  const [link,setLink] = useState("")
+
+
+  useEffect(() =>
+  {
+    setLink("/editMember/" + id)
+
+  },[id])
 
   const deleteM = async () =>
   {
@@ -52,7 +61,7 @@ function MemberComp(props)
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Edit</Button>
+        <Link to= {link} >Edit</Link>
         <Button onClick={deleteM} size="small">Delete</Button>
       </CardActions>
       <MoviesWatchedComp mData={props.memberData} />

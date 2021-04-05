@@ -14,6 +14,9 @@ import Select from '@material-ui/core/Select';
 import 'date-fns';
 import { TextField } from '@material-ui/core';
 
+import {Link} from 'react-router-dom'
+
+
 
 import React from 'react';
 
@@ -59,7 +62,6 @@ function MoviesWatchedComp(props)
         
       let  resp  = await utils.addSubscription(sub);
       alert(resp.data);
-     // this.props.history.push("/allMembers");
     
     }
 
@@ -160,7 +162,7 @@ function MoviesWatchedComp(props)
                           { 
                               if(x._id === item.movieid)
                             {
-                              return ( x.name)
+                              return ( <Link to= {"/allMovies/" + x.name} >{x.name}</Link> )
                             }
                             else{
                               return null

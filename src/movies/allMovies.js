@@ -9,15 +9,27 @@ function AllMoviesComp(props)
 
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState("");
-    const [num, setNum] = useState(0)
+
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(async () =>
     {
-      let resp = await utils.getMovies();
-      setMovies(resp.data);
-    }, [num])
+      if (props.match.params.name!=null)
+      {
+        let name = props.match.params.name;
+        name.replace(/%20/g, " ")
+        setSearch(name)
+        getData();
+
+      }
+      else
+      {
+        let resp = await utils.getMovies();
+        setMovies(resp.data);
+      }
+
+    }, [search])
 
 
     const getData = async () =>
@@ -28,8 +40,8 @@ function AllMoviesComp(props)
         setMovies(resp)
       }
       else{
-        let n = num;
-        setNum(n++)
+        let resp = await utils.getMovies();
+        setMovies(resp.data);
 
       }
 
@@ -37,7 +49,7 @@ function AllMoviesComp(props)
 
     return(
      <div className="App">
-        Search : <input type="text" onChange={e => setSearch(e.target.value)} /> 
+        Search : <input type="text" value = {search} onChange={e => setSearch(e.target.value)} /> 
         <input type="button" value="Get Data" onClick={getData} /><br/><br/>
         <br/>
 
@@ -50,7 +62,7 @@ function AllMoviesComp(props)
                 return(
                 <div>
                     
-                <MovieComp key={item.id} movieData={item} /><br/>
+                <MovieComp key={item._id} movieData={item} /><br/>
                 </div>)
             })
         }
