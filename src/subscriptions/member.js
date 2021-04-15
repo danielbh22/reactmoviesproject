@@ -30,6 +30,7 @@ function MemberComp(props)
 
   const [id] = useState(props.memberData._id);
   const [link,setLink] = useState("")
+  const [error, setError] = useState("");
 
 
   useEffect(() =>
@@ -40,14 +41,31 @@ function MemberComp(props)
 
   const deleteM = async () =>
   {
-    let resp = await membersUtils.deleteMember(id);
-    alert(resp.data);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+
+      try 
+      {
+        let resp = await membersUtils.deleteMember(id,config);
+        alert(resp.data);
+      }
+      catch (error)
+      {
+        localStorage.removeItem("authToken");
+        setError("You are not authorized please login");
+      }
 
   }
     const classes = useStyles();
 
 
-    return(
+    return error ? (
+      <span className="error-message">{error}</span>
+    ) :(
          <div className="App">
      <Card className={classes.root}>
       <CardContent>

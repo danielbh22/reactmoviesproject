@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-const getSubscriptions = () =>
+const getSubscriptions = (config) =>
 {
-    return axios.get("http://localhost:8000/api/subscriptions")
+    return axios.get("http://localhost:8000/api/subscriptions",config)
 }
 
-const getSubscription = (id) =>
+const getSubscription = (id,config) =>
 {
-    return axios.get("http://localhost:8000/api/subscriptions/" + id)
+    return axios.get("http://localhost:8000/api/subscriptions/" + id,config)
 }
 
-const addSubscription = (obj) =>
+const addSubscription = (obj,config) =>
 {
-    return axios.post("http://localhost:8000/api/subscriptions",obj )
+    return axios.post("http://localhost:8000/api/subscriptions",obj,config )
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

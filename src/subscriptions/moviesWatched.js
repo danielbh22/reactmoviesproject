@@ -38,20 +38,37 @@ function MoviesWatchedComp(props)
 
 
     const [isVisible, setIsVisible] = useState(false);
+    const [error, setError] = useState("");
+
 
     const classes = useStyles();
 
-    
-
-    useEffect(async () =>
+ 
+    useEffect( () =>
     {
-      let resp = await utils.getSubscriptions();
-      setSubs(resp.data);
+      const fetchPrivateDate = async () => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        };
 
-      let resp2 = await moviesUtils.getMovies();
-      setMovies(resp2.data);
-
-
+      try{
+        let resp = await utils.getSubscriptions(config);
+        setSubs(resp.data);
+  
+        let resp2 = await moviesUtils.getMovies(config);
+        setMovies(resp2.data);
+      }
+      catch (error)
+      {
+        localStorage.removeItem("authToken");
+        setError("You are not authorized please login");
+      }
+      
+    };
+    fetchPrivateDate();
 
     }, [])
 
@@ -59,14 +76,29 @@ function MoviesWatchedComp(props)
     const save = async (e) =>
     {
       e.preventDefault();
-        
-      let  resp  = await utils.addSubscription(sub);
-      alert(resp.data);
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        };
+      try{
+          let  resp  = await utils.addSubscription(sub,config);
+          alert(resp.data);
     
+        }
+        catch(error)
+        {
+          localStorage.removeItem("authToken");
+          setError("You are not authorized please login");
+        }
+
     }
 
 
-    return(
+    return error ? (
+      <span className="error-message">{error}</span>
+    ) :(
      <div className="App">
         <h3>Movies Watched</h3> 
         <Button size="small" onClick={() => {
@@ -162,7 +194,7 @@ function MoviesWatchedComp(props)
                           { 
                               if(x._id === item.movieid)
                             {
-                              return ( <Link to= {"/allMovies/" + x.name} >{x.name}</Link> )
+                              return ( <Link key={x._id} to= {"/allMovies/" + x.name} >{x.name}</Link> )
                             }
                             else{
                               return null

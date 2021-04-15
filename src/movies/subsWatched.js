@@ -3,12 +3,9 @@ import {useState, useEffect} from 'react'
 import utils from '../subscriptionsUtils'
 import membersUtil from '../membersUtils';
 
-
 import 'date-fns';
 
-
 import {Link} from 'react-router-dom'
-
 
 
 import React from 'react';
@@ -20,18 +17,33 @@ function SubsWatchedComp(props)
     const [members, setMembers] = useState([]);
     const [subs, setSubs] = useState([]);
 
-
-
-    
+    const [error, setError] = useState("");
 
     useEffect(async () =>
     {
-      let resp = await utils.getSubscriptions();
-      setSubs(resp.data);
+      const fetchPrivateDate = async () => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        };
 
-      let resp2 = await membersUtil.getMembers();
-      setMembers(resp2.data);
+      try{
+        let resp = await utils.getSubscriptions(config);
+        setSubs(resp.data);
 
+        let resp2 = await membersUtil.getMembers(config);
+        setMembers(resp2.data);
+        }
+        catch (error)
+        {
+          localStorage.removeItem("authToken");
+          setError("You are not authorized please login");
+        }
+        
+      };
+      fetchPrivateDate();
 
 
     }, [])
@@ -39,9 +51,11 @@ function SubsWatchedComp(props)
 
 
 
-    return(
-     <div className="App">
-        <h3>Subscriptions Watched</h3> 
+    return error ? (
+      <span className="error-message">{error}</span>
+    ) :(
+     <div className ="border border-3 rounded">
+        <h5>Subscriptions Watched:</h5> 
 
    
 
@@ -59,7 +73,7 @@ function SubsWatchedComp(props)
                           { 
                               if(x._id === item.memberid)
                             {
-                              return ( <Link to= {"/allMembers/" + x.name} >{x.name}</Link> )
+                              return ( <Link key={x._id} to= {"/allMembers/" + x.name} >{x.name}</Link> )
                             }
                             else{
                               return null

@@ -1,33 +1,33 @@
 import axios from 'axios';
 
-const getMovies = () =>
+const getMovies = (config) =>
 {
-    return axios.get("http://localhost:8000/api/movies")
+    return axios.get("http://localhost:8000/api/movies",config)
 }
 
-const getMovie = (id) =>
+const getMovie = (id,config) =>
 {
-    return axios.get("http://localhost:8000/api/movies/" + id)
+    return axios.get("http://localhost:8000/api/movies/" + id,config)
 }
 
-const addMovie = (obj) =>
+const addMovie = (obj, config) =>
 {
-    return axios.post("http://localhost:8000/api/movies/",obj )
+    return axios.post("http://localhost:8000/api/movies/",obj ,config)
 }
 
-const deleteMovie = (id) =>
+const deleteMovie = (id, config) =>
 {
-    return axios.delete("http://localhost:8000/api/movies/" + id )
+    return axios.delete("http://localhost:8000/api/movies/" + id,config)
 }
 
-const updateMovie = (id ,obj) =>
+const updateMovie = (id ,obj, config) =>
 {
-    return axios.put("http://localhost:8000/api/movies/" + id, obj )
+    return axios.put("http://localhost:8000/api/movies/" + id, obj ,config)
 }
 
-const searchMovies = async(search) =>
+const searchMovies = async(search, config) =>
 {
-    let resp = await axios.get("http://localhost:8000/api/movies")
+    let resp = await axios.get("http://localhost:8000/api/movies",config)
     let respd = resp.data
     let chars = search.toLowerCase()
 

@@ -14,31 +14,65 @@ function EditMemberComp(props)
 
     const [member,setMember] = useState({});
     const [id,setId] = useState("");
+    const [error, setError] = useState("");
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(async () =>
+    useEffect( () =>
     {
-      setId(props.match.params.id)
+      const fetchPrivateDate = async () => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        };
 
-      let resp = await utils.getMember(id);
-      setMember(resp.data);
+        try 
+        {
+          setId(props.match.params.id)
+
+          let resp = await utils.getMember(id,config);
+          setMember(resp.data);
+        }
+        catch (error)
+        {
+          localStorage.removeItem("authToken");
+          setError("You are not authorized please login");
+        }
+     };
+      fetchPrivateDate();
+
     }, [id, props.match.params.id])
 
    
     
     const update = async (e) =>
     {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+
       e.preventDefault();
-    
-      let  resp  = await utils.updateMember(id,member);
+      try 
+      {
+      let  resp  = await utils.updateMember(id,member,config);
       alert(resp.data);
       history.push("/allMembers");
-    
+      }
+      catch (error)
+      {
+        localStorage.removeItem("authToken");
+        setError("You are not authorized please login");
+      }
     }
 
     
 
-    return (<div>
+    return  error ? (
+      <span className="error-message">{error}</span>
+    ) :(<div>
         <h3>Edit Member</h3>{member.name}
         
         <form onSubmit={e => update(e)}> 

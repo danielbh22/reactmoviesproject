@@ -1,5 +1,5 @@
 
-import {Switch, Route, Link ,BrowserRouter as Router } from 'react-router-dom'
+import {Switch, Link ,BrowserRouter as Router } from 'react-router-dom'
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,7 @@ import AllMembersComp from './allMembers';
 import EditMemberComp from './editMember';
 import AllMoviesComp from '../movies/allMovies';
 
+import PrivateRoute from "../components/routing/PrivateRoute";
 
 
 
@@ -34,11 +35,11 @@ function SubscriptionsComp(props)
             </Link>  <br/>
           
         <Switch>
-          <Route path="/addMember" component={AddMemberComp} />
-          <Route path="/allMembers" component={AllMembersComp} />
-          <Route path="/subscriptions" component={AllMembersComp} />
-          <Route path="/editMember/:id" component={EditMemberComp} />
-          <Route path="/allMovies/:name" component={AllMoviesComp} />
+          <PrivateRoute path="/addMember" component={AddMemberComp} />
+          <PrivateRoute path="/allMembers" component={AllMembersComp} />
+          <PrivateRoute path="/subscriptions" component={AllMembersComp} />
+          <PrivateRoute path="/editMember/:id" component={EditMemberComp} />
+          <PrivateRoute path="/allMovies/:name" component={AllMoviesComp} />
 
         </Switch>
         </Router>

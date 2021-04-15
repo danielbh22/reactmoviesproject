@@ -14,17 +14,35 @@ function AddMemberComp(props)
     const history = useHistory()
     const [member,setMember] = useState({});
 
+    const [error, setError] = useState("");
+
     const save = async (e) =>
     {
       e.preventDefault();
-    
-      let  resp  = await utils.addMember(member);
-      alert(resp.data);
-      history.push("/allMembers");
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      try{
+        let  resp  = await utils.addMember(member,config);
+        alert(resp.data);
+        history.push("/allMembers");
+      }
+      catch (error)
+      {
+        localStorage.removeItem("authToken");
+        setError("You are not authorized please login");
+      }
+
     
     }
 
-    return <div>
+    return error ? (
+        <span className="error-message">{error}</span>
+      ) :(<div>
         <h3>Add New Member</h3>
         
         <form onSubmit={e => save(e)}>  
@@ -37,6 +55,7 @@ function AddMemberComp(props)
 
 
     </div>
+      )
 }
 
 export default AddMemberComp
